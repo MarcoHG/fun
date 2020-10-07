@@ -121,8 +121,11 @@ if [[ -n $fullname ]]; then
 	urlName="http://wc-controls.com/biblia/$fullname"
 	# ffplay  -x 250 -y 250 -loglevel quiet -window_title "$Book-$Chapter" $urlName &
 	# todo https://classic.biblegateway.com/passage/?search=levitico+19&version=RVR1960;NIV
-	echo $urlName
-	#chromium --new-window $urlName >/dev/null 2>&1 & 
+	echo "Read spanish:" $urlName
+	chromium --new-window $urlName >/dev/null 2>&1 &
+	sleep 1	# allow process to start 
+	chromium "https://classic.biblegateway.com/passage/?search="$Book"+"$Chapter"&version=RVR1960;NIV" >/dev/null 2>&1 & 
+
 fi
 
 
