@@ -41,14 +41,28 @@ getBookName() {
 	local book
 	local san=""
 	
-	if [[  $bookPrefix == 1  ]]; then
-		book=${_b^}
-		name="$(printf "%d_%s" $_a $book)"
-	else
-		book=${_a^};
-		if [[ $book == "Mateo" || $book == "Lucas" || $book == "Marcos" || $book == "Juan" ]]; then
-			san="San_"
+	normalizeBookCase() {
+		book=${book,,} 		#=> all lowercase
+		book=${book^}			#=> First upper
+	}
+
+	addSanIfEvangelist()
+	{
+		if [[ $book == "Mateo" || $book == "Lucas" || $book == "Marcos" || $book == 	"Juan" ]]; then
+				book="San_"$book
 		fi
+	}
+
+	
+	# Some books have 1, 2 or 3 as prefix	
+	if [[  $bookPrefix == 1  ]]; then
+		book=$_b	#=> book is second arg
+		normalizeBookCase
+		name=$_a"_"$book
+	else
+		book=$_a	#=> book is first arg
+		normalizeBookCase
+		addSanIfEvangelist
 		name="$(printf "%s%s" $san $book)"
 	fi
 	echo -n $name
@@ -105,8 +119,10 @@ done
 
 if [[ -n $fullname ]]; then
 	urlName="http://wc-controls.com/biblia/$fullname"
-	ffplay  -x 250 -y 250 -loglevel quiet -window_title "$Book-$Chapter" $urlName &
-	#echo $urlName
+	# ffplay  -x 250 -y 250 -loglevel quiet -window_title "$Book-$Chapter" $urlName &
+	# todo https://classic.biblegateway.com/passage/?search=levitico+19&version=RVR1960;NIV
+	echo $urlName
+	#chromium --new-window $urlName >/dev/null 2>&1 & 
 fi
 
 
