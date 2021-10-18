@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# /home/marco/bin/rv1960.sh
 # BBCCC-Book_CC.mp3 	BB is 1 to 66, 
 #	BBCCC-Book_CCC.mp3 for Salmos 
 # Book for Mateo, Marcos, Lucas, Juan has a 'San_' prefix
@@ -123,7 +124,7 @@ if [[ -n $fullname ]]; then
 	# todo https://classic.biblegateway.com/passage/?search=levitico+19&version=RVR1960;NIV
 	echo "Read spanish:" $urlName
 	chromium --new-window $urlName >/dev/null 2>&1 &
-	sleep 1	# allow process to start 
+	sleep 3	# allow process to start 
 	chromium "https://classic.biblegateway.com/passage/?search="$Book"+"$Chapter"&version=RVR1960;NIV" >/dev/null 2>&1 & 
 
 fi
